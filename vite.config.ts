@@ -3,17 +3,26 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 import { VitePWA } from "vite-plugin-pwa";
+import {
+  devServerBridgePlugin,
+  errorCollectorPlugin,
+} from "@lovable.dev/vite-plugin-dev-server-bridge";
+import { hmrGatePlugin } from "@lovable.dev/vite-plugin-hmr-gate";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    allowedHosts: true,
     hmr: {
       overlay: false,
     },
   },
   plugins: [
+    hmrGatePlugin(),
+    devServerBridgePlugin(),
+    errorCollectorPlugin(),
     react(),
     mode === "development" && componentTagger(),
     VitePWA({
