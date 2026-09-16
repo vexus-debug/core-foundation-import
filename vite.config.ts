@@ -14,11 +14,15 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    allowedHosts: true,
     hmr: {
       overlay: false,
     },
   },
   plugins: [
+    hmrGatePlugin(),
+    devServerBridgePlugin(),
+    errorCollectorPlugin(),
     react(),
     mode === "development" && componentTagger(),
     VitePWA({
